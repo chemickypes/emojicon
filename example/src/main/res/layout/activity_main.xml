@@ -20,6 +20,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+    android:id="@+id/parent"
               tools:context="com.rockerhieu.emojicon.example.MainActivity$PlaceholderFragment">
 
     <com.rockerhieu.emojicon.EmojiconTextView
@@ -35,9 +36,9 @@
             emojicon:emojiconSize="28sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-    <fragment
+   <!-- <fragment
             android:id="@+id/emojicons"
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            class="com.rockerhieu.emojicon.EmojiconsFragment"/>
+            class="com.rockerhieu.emojicon.EmojiconsFragment"/> -->
 </LinearLayout>

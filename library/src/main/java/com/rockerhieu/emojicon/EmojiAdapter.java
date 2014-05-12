@@ -17,18 +17,24 @@
 package com.rockerhieu.emojicon;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.rockerhieu.emojicon.emoji.Emojicon;
+import com.rockerhieu.emojicon.utils.Utils;
 
 /**
  * @author Hieu Rocker (rockerhieu@gmail.com)
  */
 class EmojiAdapter extends ArrayAdapter<Emojicon> {
-    public EmojiAdapter(Context context, Emojicon[] data) {
+    private EmojiconGridFragment.OnEmojiconClickedListener mOnEmojiconClickedListener;
+
+    public EmojiAdapter(Context context, Emojicon[] data,
+                        EmojiconGridFragment.OnEmojiconClickedListener listener) {
         super(context, R.layout.emojicon_item, data);
+        mOnEmojiconClickedListener = listener;
     }
 
     @Override
@@ -40,9 +46,21 @@ class EmojiAdapter extends ArrayAdapter<Emojicon> {
             holder.icon = (TextView) v.findViewById(R.id.emojicon_icon);
             v.setTag(holder);
         }
-        Emojicon emoji = getItem(position);
+        final Emojicon emoji = getItem(position);
         ViewHolder holder = (ViewHolder) v.getTag();
         holder.icon.setText(emoji.getEmoji());
+
+        //debug code
+        if(!Utils.hasKitKat()) {
+            holder.icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("Emoicons", " clicked");
+                    view.setSelected(true);
+                    mOnEmojiconClickedListener.onEmojiconClicked(emoji);
+                }
+            });
+        }
         return v;
     }
 

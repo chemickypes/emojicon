@@ -19,6 +19,7 @@ package com.rockerhieu.emojicon;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ import com.rockerhieu.emojicon.emoji.People;
  * @author Hieu Rocker (rockerhieu@gmail.com)
  */
 public class EmojiconGridFragment extends Fragment implements AdapterView.OnItemClickListener {
+    private final boolean DEBUG = true;
+
     private OnEmojiconClickedListener mOnEmojiconClickedListener;
     private Emojicon[] mData;
 
@@ -52,7 +55,7 @@ public class EmojiconGridFragment extends Fragment implements AdapterView.OnItem
         super.onViewCreated(view, savedInstanceState);
         GridView gridView = (GridView) view.findViewById(R.id.Emoji_GridView);
         mData = getArguments() == null ? People.DATA : (Emojicon[]) getArguments().getSerializable("emojicons");
-        gridView.setAdapter(new EmojiAdapter(view.getContext(), mData));
+        gridView.setAdapter(new EmojiAdapter(view.getContext(), mData, mOnEmojiconClickedListener));
         gridView.setOnItemClickListener(this);
     }
 
@@ -66,8 +69,10 @@ public class EmojiconGridFragment extends Fragment implements AdapterView.OnItem
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         if (activity instanceof OnEmojiconClickedListener) {
+            if(DEBUG) Log.d("EmojiconGridFragment",activity.toString());
             mOnEmojiconClickedListener = (OnEmojiconClickedListener) activity;
         } else if(getParentFragment() instanceof OnEmojiconClickedListener) {
+            if(DEBUG) Log.d("EmojiconGridFragment","parent fragment");
             mOnEmojiconClickedListener = (OnEmojiconClickedListener) getParentFragment();
         } else {
             throw new IllegalArgumentException(activity + " must implement interface " + OnEmojiconClickedListener.class.getSimpleName());
@@ -82,7 +87,9 @@ public class EmojiconGridFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(DEBUG) Log.d("EmojiconGridFragment","entered");
         if (mOnEmojiconClickedListener != null) {
+            if(DEBUG) Log.d("EmojiconGridFragment","itemClicked");
             mOnEmojiconClickedListener.onEmojiconClicked((Emojicon) parent.getItemAtPosition(position));
         }
     }

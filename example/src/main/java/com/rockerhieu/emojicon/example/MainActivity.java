@@ -18,8 +18,14 @@ package com.rockerhieu.emojicon.example;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import com.rockerhieu.emojicon.EmojiconGridFragment;
 import com.rockerhieu.emojicon.EmojiconsFragment;
@@ -28,13 +34,27 @@ import com.rockerhieu.emojicon.emoji.Emojicon;
 public class MainActivity extends FragmentActivity implements EmojiconGridFragment.OnEmojiconClickedListener, EmojiconsFragment.OnEmojiconBackspaceClickedListener {
     EditText mEditEmojicon;
     TextView mTxtEmojicon;
+    LinearLayout parent;
+    View popv;
+    PopupWindow window;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        parent = (LinearLayout) findViewById(R.id.parent);
+        //LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        popv = getLayoutInflater().inflate(R.layout.popup_layout, null);
+        window = new PopupWindow(popv, ViewGroup.LayoutParams.MATCH_PARENT,500,false);
         mEditEmojicon = (EditText) findViewById(R.id.editEmojicon);
         mTxtEmojicon = (TextView) findViewById(R.id.txtEmojicon);
+        mTxtEmojicon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.showAtLocation(parent, Gravity.BOTTOM,0,0);
+                //window.showAsDropDown(parent);
+            }
+        });
         mEditEmojicon.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -45,6 +65,7 @@ public class MainActivity extends FragmentActivity implements EmojiconGridFragme
 
     @Override
     public void onEmojiconClicked(Emojicon emojicon) {
+        Log.i("MainActivity", "emojicon selected");
         EmojiconsFragment.input(mEditEmojicon, emojicon);
     }
 

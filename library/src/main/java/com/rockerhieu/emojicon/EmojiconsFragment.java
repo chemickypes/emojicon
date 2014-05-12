@@ -22,8 +22,10 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.*;
 import android.widget.EditText;
 import com.rockerhieu.emojicon.emoji.*;
@@ -35,6 +37,7 @@ import java.util.List;
  * @author Hieu Rocker (rockerhieu@gmail.com).
  */
 public class EmojiconsFragment extends Fragment implements ViewPager.OnPageChangeListener {
+    private static final boolean DEBUG = true;
     private OnEmojiconBackspaceClickedListener mOnEmojiconBackspaceClickedListener;
     private int mEmojiTabLastSelectedIndex = -1;
     private View[] mEmojiTabs;
@@ -44,13 +47,14 @@ public class EmojiconsFragment extends Fragment implements ViewPager.OnPageChang
         View view = inflater.inflate(R.layout.emojicons, container, false);
         final ViewPager emojisPager = (ViewPager) view.findViewById(R.id.emojis_pager);
         emojisPager.setOnPageChangeListener(this);
-        EmojisPagerAdapter emojisAdapter = new EmojisPagerAdapter(getFragmentManager(), Arrays.asList(
+        EmojisPagerAdapter emojisAdapter = new EmojisPagerAdapter(getChildFragmentManager(), Arrays.asList(
                 EmojiconGridFragment.newInstance(People.DATA),
                 EmojiconGridFragment.newInstance(Nature.DATA),
                 EmojiconGridFragment.newInstance(Objects.DATA),
                 EmojiconGridFragment.newInstance(Places.DATA),
                 EmojiconGridFragment.newInstance(Symbols.DATA)
         ));
+
         emojisPager.setAdapter(emojisAdapter);
 
         mEmojiTabs = new View[5];
@@ -72,6 +76,7 @@ public class EmojiconsFragment extends Fragment implements ViewPager.OnPageChang
             @Override
             public void onClick(View v) {
                 if (mOnEmojiconBackspaceClickedListener != null) {
+                    if(DEBUG) Log.d("EmojiconsFragment","item selected");
                     mOnEmojiconBackspaceClickedListener.onEmojiconBackspaceClicked(v);
                 }
             }
@@ -100,6 +105,7 @@ public class EmojiconsFragment extends Fragment implements ViewPager.OnPageChang
 
     public static void input(EditText editText, Emojicon emojicon) {
         if (editText == null || emojicon == null) {
+            if(DEBUG) Log.d("EmojiconsFragment","null - return input method");
             return;
         }
 

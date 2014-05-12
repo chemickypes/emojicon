@@ -22,6 +22,7 @@
         android:layout_height="wrap_content">
     <com.rockerhieu.emojicon.EmojiconTextView
             android:layout_gravity="center"
+            android:background="@drawable/emojicons_item_color"
             android:id="@+id/emojicon_icon"
             android:layout_width="32dip"
             android:layout_height="32dip"
