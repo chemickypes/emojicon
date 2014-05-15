@@ -51,7 +51,14 @@ _Note: You can change the size of emojis in XML layout through attribute `emojic
 Via Gradle:
 
 ```
-compile 'com.rockerhieu.emojicon:library:1.0'
+repositories {
+        mavenCentral()
+        maven {
+            url 'https://github.com/chemickypes/mvn-repo/raw/master/'
+        }
+    }
+
+    compile 'com.chemickypes.emojicon:library:1.0'
 ```
 
 Releases can be found on either Maven Central or [Emojicon's Releases](https://github.com/rockerhieu/emojicon/releases/)
@@ -78,7 +85,7 @@ but will be thoroughly reviewed and discussed.
 * [Apache Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 ```
-Copyright 2014 Hieu Rocker
+Copyright 2014 Angelo Moroni
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
